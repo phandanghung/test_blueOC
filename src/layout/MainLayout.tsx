@@ -29,9 +29,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       </header>
 
       <main className="flex justify-between w-full p-4">
-        <img src={naruto} className="w-1/6 h-auto" />
+        <img src={naruto} className="w-1/6 h-auto hidden sm:block" />
         <div className="w-4/6">{children}</div>
-        <img src={sasuke} className="w-1/6 h-auto" />
+        <img src={sasuke} className="w-1/6 h-auto hidden sm:block" />
       </main>
 
       <footer className="text-gray-600 text-center p-4">

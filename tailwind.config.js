@@ -25,6 +25,8 @@ module.exports = {
         xl: "1.5rem",
         "2xl": "1rem",
       },
+    },
+    extend: {
       screens: {
         sm: "600px",
         md: "728px",
@@ -32,8 +34,6 @@ module.exports = {
         xl: "1240px",
         "2xl": "1920px",
       },
-    },
-    extend: {
       colors: {
         primary: "#111827",
         secondary: "#687588",

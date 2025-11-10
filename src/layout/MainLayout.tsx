@@ -9,8 +9,8 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col justify-between w-full">
-      <header className="flex justify-center gap-5">
+    <div className="relative flex flex-col justify-between w-full">
+      <header className="fixed flex justify-center gap-5 bg-white w-full py-8">
           <Link
             to="/"
             className="hover:underline"
@@ -28,9 +28,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           </a>
       </header>
 
-      <main className="flex justify-between w-full p-4">
+      <main className="min-h-screen flex justify-between w-full p-2 mt-20">
         <img src={naruto} className="w-1/6 h-auto hidden sm:block" />
-        <div className="w-4/6">{children}</div>
+        <div>{children}</div>
         <img src={sasuke} className="w-1/6 h-auto hidden sm:block" />
       </main>
 

@@ -1,61 +1,62 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPostDetail, clearPost } from "../store/postSlice";
+import type { RootState, AppDispatch } from "../store/store";
 
-const API_URL = import.meta.env.VITE_API_URL; 
-
-const PostDetail =()=> {
+const PostDetail = () => {
   const { id } = useParams();
-  const [post, setPost] = useState<any>(null);
-  const [comments, setComments] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const { post, comments, loading, error } = useSelector(
+    (state: RootState) => state.post
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+    if (id) dispatch(fetchPostDetail(id));
 
-        const postRes = await fetch(`${API_URL}/posts/${id}`);
-        if (!postRes.ok) throw new Error("Không thể tải bài viết");
-        const postData = await postRes.json();
-        setPost(postData);
-
-        const commentsRes = await fetch(`${API_URL}/posts/${id}/comments`);
-        if (!commentsRes.ok) throw new Error("Không thể tải bình luận");
-        const commentsData = await commentsRes.json();
-        setComments(commentsData);
-      } catch (err: any) {
-        console.error(err);
-        setError(err.message || "Lỗi không xác định");
-      } finally {
-        setLoading(false);
-      }
+    // Clear state khi rời trang
+    return () => {
+      dispatch(clearPost());
     };
+  }, [dispatch, id]);
 
-    fetchData();
-  }, [id]);
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-lg">
+        ⏳ Đang tải...
+      </div>
+    );
 
-  if (loading) return <p>⏳ Đang tải...</p>;
-  if (error) return <p>❌ {error}</p>;
-  if (!post) return <p>Không tìm thấy bài viết</p>;
+  if (error)
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-red-500 text-lg">
+        ❌ {error}
+      </div>
+    );
+
+  if (!post)
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-lg">
+        Không tìm thấy bài viết
+      </div>
+    );
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="p-4">
       <Link to="/">← Quay lại danh sách</Link>
-      <h2>{post.title}</h2>
-      <p>{post.body}</p>
+      <h2 className="text-2xl font-bold my-2">{post.title}</h2>
+      <p className="mb-4">{post.body}</p>
 
-      <h3>Bình luận:</h3>
-      <ul>
+      <h3 className="text-xl font-semibold mt-4">Bình luận:</h3>
+      <ul className="list-disc pl-6">
         {comments.map((c) => (
-          <li key={c.id}>
+          <li key={c.id} className="mb-2">
             <strong>{c.email}</strong>: {c.body}
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default PostDetail;

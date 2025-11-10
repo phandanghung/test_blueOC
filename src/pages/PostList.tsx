@@ -30,7 +30,7 @@ const PostList = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="text-center py-20 px-4">
+    <div className="text-center py-20 px-4 ">
       <h1 className="text-2xl font-bold mb-4">Danh sách bài đăng</h1>
 
       <input
@@ -38,10 +38,10 @@ const PostList = () => {
         placeholder="Tìm kiếm bài viết..."
         value={searchTerm}
         onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-        className="border border-gray-300 w-1/2 mb-6"
+        className="border border-gray-300 w-[40vh] md:w-[50vh] mb-6"
       />
 
-      <div className="text-start max-w-xl mx-auto">
+      <div className="text-start max-w-xl mx-auto min-h-[50vh]">
         {currentPosts.length > 0 ? (
           currentPosts.map(post => (
             <p key={post.id} className="mb-2">
